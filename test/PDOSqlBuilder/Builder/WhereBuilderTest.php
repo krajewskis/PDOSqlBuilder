@@ -66,5 +66,40 @@ class WhereBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('a', current($this->wb->getParameters()));
 		$this->assertEquals('b', next($this->wb->getParameters()));
 	}
+
+	public function testMass()
+	{
+		$this->wb->addCondition(array(
+			'a' => 1,
+			'b' => array('a', 'b')
+		));
+
+		$this->assertEquals('(a = ?) AND (b IN (?,?))', $this->wb->getConditions());
+		$params = $this->wb->getParameters();
+		$this->assertEquals(3, count($params));
+		$this->assertEquals(1, $params[0]);
+		$this->assertEquals('a', $params[1]);
+		$this->assertEquals('b', $params[2]);
+	}
+
+	public function testOrByValue()
+	{
+		$this->wb->addCondition('a = ? OR b = ?', 1);
+		$this->assertEquals('(a = ? OR b = ?)', $this->wb->getConditions());
+		$params = $this->wb->getParameters();
+		$this->assertEquals(2, count($params));
+		$this->assertEquals(1, $params[0]);
+		$this->assertEquals(1, $params[1]);
+	}
+
+	public function testOrByValues()
+	{
+		$this->wb->addCondition('a = ? AND b = ?', array(1, 2));
+		$this->assertEquals('(a = ? AND b = ?)', $this->wb->getConditions());
+		$params = $this->wb->getParameters();
+		$this->assertEquals(2, count($params));
+		$this->assertEquals(1, $params[0]);
+		$this->assertEquals(2, $params[1]);
+	}
 }
  

@@ -22,22 +22,41 @@ class WhereBuilder
 			}
 
 		} else if (!is_array($condition)) {
-			if (preg_match('/^[a-z0-9]*$/', $condition) && !is_array($param)) {
-				if ($param === true) {
-					$param = 1;
-				} else if ($param === false) {
-					$param = 0;
-				}
-				$this->conditions[] = $condition . ' = ?';
-				$this->parameters[] = $param;
+			// ->where('a', ...
+			if (preg_match('/^[a-z0-9]*$/', $condition)) {
+				if (!is_array($param)) {
+					if ($param === true) {
+						// ->where('a', true);
+						$param = 1;
+					} else if ($param === false) {
+						// ->where('a', false);
+						$param = 0;
+					}
+					// ->where('a', 1);
+					// ->where('a', 'x');
+					$this->conditions[] = $condition . ' = ?';
+					$this->parameters[] = $param;
 
-			} else if (preg_match('/^[a-z0-9]$/', $condition) && is_array($param)) {
-				$this->conditions[] = $condition . ' IN (' . trim(str_repeat('?,', count($param)), ',') . ')';
+				} else {
+					// ->where('a', array(1, 2));
+					$this->conditions[] = $condition . ' IN (' . trim(str_repeat('?,', count($param)), ',') . ')';
+					$this->parameters = array_merge($this->parameters, $param);
+				}
+
+			} else if (preg_match('/(\?)+/', $condition, $matches) && count($matches) > 1 && !is_array($param)) {
+				// ->where('a = ? OR b = ?', 1);
+				$this->conditions[] = $condition;
+				$param = array_fill(0, count($matches), $param);
 				$this->parameters = array_merge($this->parameters, $param);
 
 			} else {
+				// by PDO
 				$this->conditions[] = $condition;
-				$this->parameters[] = $param;
+				if (is_array($param)) {
+					$this->parameters = array_merge($this->parameters, $param);
+				} else {
+					$this->parameters[] = $param;
+				}
 			}
 
 		} else {

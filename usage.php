@@ -29,7 +29,7 @@ for ($i = 1; $i <= 3; $i++) {
 
 	$pdob = new \PDOSqlBuilder\PDOSqlBuilder($pdo);
 	$pdob->setDebug(true);
-	$list = $pdob->from('test')->where('id', array(1, 2))->prepare();
+	$list = $pdob->from('test')->where('id', array(1, 2))->fetchAll(PDO::FETCH_OBJ);
 
 	print_r($list);
 
