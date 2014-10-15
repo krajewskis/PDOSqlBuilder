@@ -22,4 +22,4 @@ abstract class AbstractBuilder
 		$this->pdo = $pdo;
 		$this->table = $table;
 	}
-} 
+}

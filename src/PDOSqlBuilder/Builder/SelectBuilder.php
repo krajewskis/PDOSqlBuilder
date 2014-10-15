@@ -11,12 +11,28 @@ namespace PDOSqlBuilder\Builder;
 
 class SelectBuilder extends AbstractBuilder
 {
-	private $query;
-
+	private $where;
 	private $limit;
 	private $offset;
 
-	private $statement;
+	private $query;
+
+	/**
+	 * @var \PDOStatement
+	 */
+	private $sth;
+
+	public function __construct(\PDO $pdo, $table)
+	{
+		parent::__construct($pdo, $table);
+		$this->where = new WhereBuilder();
+	}
+
+	public function where($conditions, $parameters = null)
+	{
+		$this->where->addCondition($conditions, $parameters);
+		return $this;
+	}
 
 	public function limit($limit)
 	{
@@ -30,14 +46,17 @@ class SelectBuilder extends AbstractBuilder
 		return $this;
 	}
 
-	private function build()
+	protected function buildQuery()
 	{
-		$this->query = 'SELECT * FROM ' . $this->table . PHP_EOL;
+		$this->query = 'SELECT * FROM ' . $this->table;
+		if ($this->where->hasConditions()) {
+			$this->query .= ' WHERE ' . $this->where->getConditions();
+		}
 		if (!is_null($this->limit)) {
-			$this->query .= 'LIMIT ' . $this->limit . PHP_EOL;
+			$this->query .= ' LIMIT ' . $this->limit;
 		}
 		if (!is_null($this->offset)) {
-			$this->query .= 'OFFSET ' . $this->offset . PHP_EOL;
+			$this->query .= ' OFFSET ' . $this->offset;
 		}
 
 		$this->query = trim($this->query);
@@ -47,23 +66,34 @@ class SelectBuilder extends AbstractBuilder
 		}
 	}
 
+	public function prepare()
+	{
+		if (!$this->query) {
+			$this->buildQuery();
+		}
+		$this->sth = $this->pdo->prepare($this->query);
+		return $this;
+	}
+
 	public function execute()
 	{
-		$this->build();
-		return $this->pdo->query($this->query);
+		if (!$this->sth) {
+			$this->prepare();
+		}
+		return $this->sth->execute($this->where->getParameters());
 	}
 
 	public function setFetchMode($style = null, $argument = null)
 	{
-		if (!$this->statement) {
-			$this->statement = $this->execute();
+		if (!$this->sth) {
+			$this->sth = $this->execute();
 		}
 
 		if (!is_null($style) && is_null($argument)) {
-			$this->statement->setFetchMode($style);
+			$this->sth->setFetchMode($style);
 
 		} else if (!is_null($style) && !is_null($argument)) {
-			$this->statement->setFetchMode($style, $argument);
+			$this->sth->setFetchMode($style, $argument);
 		}
 
 		return $this;
@@ -71,21 +101,21 @@ class SelectBuilder extends AbstractBuilder
 
 	public function fetchAll($style = null, $argument = null)
 	{
-		if (!$this->statement) {
-			$this->statement = $this->execute();
+		if (!$this->sth) {
+			$this->execute();
 		}
 
 		if (is_null($style) && is_null($argument)) {
-			$result = $this->statement->fetchAll();
+			$result = $this->sth->fetchAll();
 
 		} else if (!is_null($style) && is_null($argument)) {
-			$result = $this->statement->fetchAll($style);
+			$result = $this->sth->fetchAll($style);
 
 		} else if (!is_null($style) && !is_null($argument)) {
-			$result = $this->statement->fetchAll($style, $argument);
+			$result = $this->sth->fetchAll($style, $argument);
 		}
 
-		$this->statement = null;
+		$this->sth = null;
 		return $result;
 	}
 }

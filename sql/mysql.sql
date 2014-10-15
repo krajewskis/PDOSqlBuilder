@@ -6,15 +6,14 @@
 DROP TABLE IF EXISTS test;
 
 CREATE TABLE test (
-  id          INT(10) AUTO_INCREMENT,
-  code        VARCHAR(20)           NOT NULL UNIQUE,
-  title       VARCHAR(255)          NOT NULL,
-  description TEXT,
-  status1     BOOLEAN DEFAULT FALSE NOT NULL,
-  status2     BOOLEAN DEFAULT TRUE  NOT NULL,
-  created     TIMESTAMP(6)          NOT NULL,
-  updated     TIMESTAMP(6)          NOT NULL,
-  PRIMARY KEY (id)
+  id          INT PRIMARY KEY                                NOT NULL AUTO_INCREMENT,
+  code        VARCHAR(20)                                    NOT NULL UNIQUE,
+  title       VARCHAR(255)                                   NOT NULL,
+  description LONGTEXT,
+  status1     TINYINT DEFAULT 0                              NOT NULL,
+  status2     TINYINT DEFAULT 1                              NOT NULL,
+  created     TIMESTAMP DEFAULT CURRENT_TIMESTAMP            NOT NULL,
+  updated     TIMESTAMP DEFAULT '0000-00-00 00:00:00'        NOT NULL
 );
 
 INSERT INTO test (code, title, description, status1, status2, created, updated)
