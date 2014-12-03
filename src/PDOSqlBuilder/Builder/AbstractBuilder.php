@@ -9,17 +9,16 @@
 namespace PDOSqlBuilder\Builder;
 
 
-use PDOSqlBuilder\PDOSqlBuilder;
-
 abstract class AbstractBuilder
 {
-	protected $pdo;
 	protected $table;
+
 	public static $debug;
 
-	public function __construct(\PDO $pdo, $table)
+	public function __construct($table)
 	{
-		$this->pdo = $pdo;
 		$this->table = $table;
 	}
+
+	abstract public function buildQuery();
 }

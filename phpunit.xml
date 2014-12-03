@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="src/loader.php" stderr="true">
+	<testsuites>
+		<testsuite name="Builder">
+			<directory suffix="Test.php">test/PDOSqlBuilder/Builder</directory>
+		</testsuite>
+		<testsuite name="Query">
+			<directory suffix="Test.php">test/PDOSqlBuilder/Query</directory>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">test/php</directory>
+		</whitelist>
+	</filter>
+
+</phpunit>

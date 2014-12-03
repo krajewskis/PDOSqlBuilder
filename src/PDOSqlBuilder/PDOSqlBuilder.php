@@ -9,8 +9,9 @@
 
 namespace PDOSqlBuilder;
 
-use PDOSqlBuilder\Builder\AbstractBuilder;
 use PDOSqlBuilder\Builder\SelectBuilder;
+use PDOSqlBuilder\Query\AbstractQuery;
+use PDOSqlBuilder\Query\SelectQuery;
 
 class PDOSqlBuilder implements PDOSqlBuilderInterface
 {
@@ -23,12 +24,12 @@ class PDOSqlBuilder implements PDOSqlBuilderInterface
 
 	public function setDebug($debug)
 	{
-		AbstractBuilder::$debug = $debug;
+		AbstractQuery::$debug = $debug;
 	}
 
 	public function from($table)
 	{
-		$builder = new SelectBuilder($this->pdo, $table);
+		$builder = new SelectQuery($this->pdo, $table);
 		return $builder;
 	}
 

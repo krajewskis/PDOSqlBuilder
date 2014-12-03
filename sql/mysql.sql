@@ -1,7 +1,6 @@
 # CREATE DATABASE sql_builder;
 # CREATE USER sql_builder;
-# GRANT ALL ON sql_builder.* TO 'sql_builder'@'localhost'
-# IDENTIFIED BY '27N6ST7W1m43rCK';
+# GRANT ALL ON sql_builder.* TO 'sql_builder'@'localhost' IDENTIFIED BY '27N6ST7W1m43rCK';
 
 DROP TABLE IF EXISTS test;
 

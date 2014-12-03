@@ -67,7 +67,19 @@ class WhereBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('b', next($this->wb->getParameters()));
 	}
 
-	public function testMass()
+	public function testArrayOne()
+	{
+		$this->wb->addCondition(array(
+			'a' => 1,
+		));
+
+		$this->assertEquals('(a = ?)', $this->wb->getConditions());
+		$params = $this->wb->getParameters();
+		$this->assertEquals(1, count($params));
+		$this->assertEquals(1, $params[0]);
+	}
+
+	public function testArrayFew()
 	{
 		$this->wb->addCondition(array(
 			'a' => 1,
