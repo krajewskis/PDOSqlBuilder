@@ -33,9 +33,27 @@ class SelectQuery extends AbstractQuery
 		return $this;
 	}
 
+	public function leftJoin($table, $condition)
+	{
+		$this->selectBuilder->leftJoin($table, $condition);
+		return $this;
+	}
+
+	public function join($table, $condition)
+	{
+		$this->selectBuilder->join($table, $condition);
+		return $this;
+	}
+
 	public function where($conditions, $parameters = null)
 	{
 		$this->selectBuilder->where($conditions, $parameters);
+		return $this;
+	}
+
+	public function group($group)
+	{
+		$this->selectBuilder->group($group);
 		return $this;
 	}
 

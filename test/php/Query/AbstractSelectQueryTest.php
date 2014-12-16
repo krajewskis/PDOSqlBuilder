@@ -100,6 +100,12 @@ abstract class AbstractSelectQueryTest extends AbstractQueryTest
 		$this->assertEquals(2, $list[1]->id);
 	}
 
+	public function testGroup()
+	{
+		$list = $this->selectQuery->columns('code')->group('code')->order('code')->fetchAll(\PDO::FETCH_OBJ);
+		$this->assertEquals('FIRST', $list[0]->code);
+	}
+
 	public function testOrder()
 	{
 		$list = $this->selectQuery->order('id DESC')->fetchAll(\PDO::FETCH_OBJ);

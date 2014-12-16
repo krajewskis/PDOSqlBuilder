@@ -24,7 +24,7 @@ class SelectBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->selectBuilder = new SelectBuilder('test', $whereBuilder);
 	}
 
-	public function testBuildQuery()
+	public function testBuild()
 	{
 		$query = $this->selectBuilder->build();
 		$this->assertEquals('SELECT * FROM test', $query);
@@ -37,7 +37,7 @@ class SelectBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('SELECT test FROM test', $query);
 	}
 
-	public function testBuildQueryWhere()
+	public function testWhere()
 	{
 		$this->selectBuilder->where('id', 1);
 		$this->assertEquals('SELECT * FROM test WHERE (id = ?)', $this->selectBuilder->build());
@@ -47,25 +47,31 @@ class SelectBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(1, $parameters[0]);
 	}
 
-	public function testBuildQueryOrder()
+	public function testGroup()
+	{
+		$this->selectBuilder->group('code');
+		$this->assertEquals('SELECT * FROM test GROUP BY code', $this->selectBuilder->build());
+	}
+
+	public function testOrder()
 	{
 		$this->selectBuilder->order('id DESC');
 		$this->assertEquals('SELECT * FROM test ORDER BY id DESC', $this->selectBuilder->build());
 	}
 
-	public function testBuildQueryLimit()
+	public function testLimit()
 	{
 		$query = $this->selectBuilder->limit(100)->build();
 		$this->assertEquals('SELECT * FROM test LIMIT 100', $query);
 	}
 
-	public function testBuildQueryOffset()
+	public function testOffset()
 	{
 		$query = $this->selectBuilder->offset(100)->build();
 		$this->assertEquals('SELECT * FROM test OFFSET 100', $query);
 	}
 
-	public function testBuildQueryLimitOffset()
+	public function testLimitOffset()
 	{
 		$query = $this->selectBuilder->limit(100)->offset(100)->build();
 		$this->assertEquals('SELECT * FROM test LIMIT 100 OFFSET 100', $query);

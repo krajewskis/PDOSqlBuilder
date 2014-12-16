@@ -14,4 +14,7 @@ $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 $ppdo = new \PPDO\PPDO($pdo);
 $ppdo->setDebug(true);
-$ppdo->from('test')->columns('code')->order('code')->execute();
+
+$ppdo->from('test')->columns('id')->where('id', 1)->group('code')->order('code')->limit(1)->offset(0)->execute();
+
+$ppdo->from('test a')->columns('a.id')->leftJoin('test b', 'a.id = b.id')->where('a.id', 1)->group('a.code')->order('a.code')->limit(1)->offset(0)->execute();
