@@ -12,6 +12,7 @@ namespace PPDO\Builder;
 class SelectBuilder extends AbstractBuilder
 {
 	private $where;
+	private $order;
 	private $limit;
 	private $offset;
 
@@ -26,6 +27,12 @@ class SelectBuilder extends AbstractBuilder
 	public function where($conditions, $parameters = null)
 	{
 		$this->where->addCondition($conditions, $parameters);
+		return $this;
+	}
+
+	public function order($order)
+	{
+		$this->order = $order;
 		return $this;
 	}
 
@@ -47,6 +54,9 @@ class SelectBuilder extends AbstractBuilder
 		if ($this->where->hasConditions()) {
 			$this->query .= ' WHERE ' . $this->where->getConditions();
 		}
+		if (!empty($this->order)) {
+			$this->query .= ' ORDER BY ' . $this->order;
+		}
 		if (!is_null($this->limit)) {
 			$this->query .= ' LIMIT ' . $this->limit;
 		}
@@ -67,5 +77,6 @@ class SelectBuilder extends AbstractBuilder
 	{
 		return $this->where->getParameters();
 	}
+
 
 }

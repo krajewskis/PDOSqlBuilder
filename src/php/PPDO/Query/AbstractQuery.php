@@ -12,7 +12,6 @@ namespace PPDO\Query;
 abstract class AbstractQuery
 {
 	protected $pdo;
-	public static $debug;
 
 	public function __construct(\PDO $pdo)
 	{

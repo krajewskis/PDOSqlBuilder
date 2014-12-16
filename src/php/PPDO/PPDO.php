@@ -9,7 +9,7 @@
 
 namespace PPDO;
 
-use PPDO\Query\AbstractQuery;
+use PPDO\Builder\AbstractBuilder;
 use PPDO\Query\DeleteQuery;
 use PPDO\Query\InsertQuery;
 use PPDO\Query\SelectQuery;
@@ -26,7 +26,7 @@ class PPDO implements PPDOInterface
 
 	public function setDebug($debug)
 	{
-		AbstractQuery::$debug = $debug;
+		AbstractBuilder::$debug = $debug;
 	}
 
 	public function from($table)

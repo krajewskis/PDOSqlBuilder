@@ -33,6 +33,12 @@ class SelectQuery extends AbstractQuery
 		return $this;
 	}
 
+	public function order($order)
+	{
+		$this->selectBuilder->order($order);
+		return $this;
+	}
+
 	public function limit($limit)
 	{
 		$this->selectBuilder->limit($limit);

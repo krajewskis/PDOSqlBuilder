@@ -29,12 +29,6 @@ abstract class AbstractSelectQueryTest extends AbstractQueryTest
 		$this->assertTrue(count($list) > 1);
 	}
 
-	public function testLimit()
-	{
-		$list = $this->selectQuery->limit(1)->fetchAll(\PDO::FETCH_OBJ);
-		$this->assertEquals(1, count($list));
-	}
-
 	public function testWhereEqualsBoolTrue()
 	{
 		$list = $this->selectQuery->where('status1', true)->fetchAll(\PDO::FETCH_OBJ);
@@ -97,5 +91,17 @@ abstract class AbstractSelectQueryTest extends AbstractQueryTest
 		$list = $this->selectQuery->where('id = ? OR id = ?', array(1, 2))->fetchAll(\PDO::FETCH_OBJ);
 		$this->assertEquals(1, $list[0]->id);
 		$this->assertEquals(2, $list[1]->id);
+	}
+
+	public function testOrder()
+	{
+		$list = $this->selectQuery->order('id DESC')->fetchAll(\PDO::FETCH_OBJ);
+		$this->assertEquals(3, $list[0]->id);
+	}
+
+	public function testLimit()
+	{
+		$list = $this->selectQuery->limit(1)->fetchAll(\PDO::FETCH_OBJ);
+		$this->assertEquals(1, count($list));
 	}
 }
