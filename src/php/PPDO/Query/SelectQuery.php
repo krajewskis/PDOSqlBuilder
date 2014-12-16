@@ -15,7 +15,7 @@ use PPDO\Builder\WhereBuilder;
 class SelectQuery extends AbstractQuery
 {
 	/**
-	 * @var \PDO
+	 * @var \PPDO\Builder\SelectBuilder
 	 */
 	private $selectBuilder;
 	private $query;
@@ -25,6 +25,12 @@ class SelectQuery extends AbstractQuery
 	{
 		parent::__construct($pdo);
 		$this->selectBuilder = new SelectBuilder($table, new WhereBuilder());
+	}
+
+	public function where($conditions, $parameters = null)
+	{
+		$this->selectBuilder->where($conditions, $parameters);
+		return $this;
 	}
 
 	public function limit($limit)
