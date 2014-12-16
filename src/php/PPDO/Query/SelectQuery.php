@@ -6,11 +6,11 @@
  * Time: 10:46
  */
 
-namespace PDOSqlBuilder\Query;
+namespace PPDO\Query;
 
 
-use PDOSqlBuilder\Builder\SelectBuilder;
-use PDOSqlBuilder\Builder\WhereBuilder;
+use PPDO\Builder\SelectBuilder;
+use PPDO\Builder\WhereBuilder;
 
 class SelectQuery extends AbstractQuery
 {
@@ -42,7 +42,7 @@ class SelectQuery extends AbstractQuery
 	public function prepare()
 	{
 		if (!$this->query) {
-			$this->query = $this->selectBuilder->buildQuery();
+			$this->query = $this->selectBuilder->build();
 		}
 		$this->sth = $this->pdo->prepare($this->query);
 		return $this;
@@ -78,6 +78,8 @@ class SelectQuery extends AbstractQuery
 			$this->execute();
 		}
 
+		$result = null;
+
 		if (is_null($style) && is_null($argument)) {
 			$result = $this->sth->fetchAll();
 
@@ -89,6 +91,7 @@ class SelectQuery extends AbstractQuery
 		}
 
 		$this->sth = null;
+
 		return $result;
 	}
 } 

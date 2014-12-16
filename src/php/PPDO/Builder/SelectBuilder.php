@@ -6,7 +6,7 @@
  * Time: 17:14
  */
 
-namespace PDOSqlBuilder\Builder;
+namespace PPDO\Builder;
 
 
 class SelectBuilder extends AbstractBuilder
@@ -16,11 +16,6 @@ class SelectBuilder extends AbstractBuilder
 	private $offset;
 
 	private $query;
-
-	/**
-	 * @var \PDOStatement
-	 */
-	private $sth;
 
 	public function __construct($table, WhereBuilder $where)
 	{
@@ -46,7 +41,7 @@ class SelectBuilder extends AbstractBuilder
 		return $this;
 	}
 
-	public function buildQuery()
+	public function build()
 	{
 		$this->query = 'SELECT * FROM ' . $this->table;
 		if ($this->where->hasConditions()) {

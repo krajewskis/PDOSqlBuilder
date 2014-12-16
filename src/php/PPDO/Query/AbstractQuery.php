@@ -6,7 +6,7 @@
  * Time: 9:01
  */
 
-namespace PDOSqlBuilder\Query;
+namespace PPDO\Query;
 
 
 abstract class AbstractQuery

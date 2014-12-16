@@ -6,20 +6,20 @@
  * Time: 16:08
  */
 
-namespace test\PDOSqlBuilder\Query;
+require_once __DIR__ . '/AbstractQueryTest.php';
 
+use PPDO\Query\SelectQuery;
 
-use PDOSqlBuilder\Query\SelectQuery;
-
-abstract class SelectQueryTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractSelectQueryTest extends AbstractQueryTest
 {
 	/**
 	 * @var SelectQuery
 	 */
 	protected $selectQuery;
 
-	protected function setPdo(\PDO $pdo)
+	public function setUp(\PDO $pdo, $sql)
 	{
+		parent::setUp($pdo, $sql);
 		$this->selectQuery = new SelectQuery($pdo, 'test');
 	}
 
@@ -34,4 +34,4 @@ abstract class SelectQueryTest extends \PHPUnit_Framework_TestCase
 		$list = $this->selectQuery->limit(1)->fetchAll(\PDO::FETCH_OBJ);
 		$this->assertEquals(1, count($list));
 	}
-} 
+}

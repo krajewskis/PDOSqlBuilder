@@ -7,9 +7,9 @@
  * Time: 17:08
  */
 
-namespace PDOSqlBuilder;
+namespace PPDO;
 
-interface PDOSqlBuilderInterface
+interface PPDOInterface
 {
 	public function __construct(\PDO $pdo);
 
@@ -19,6 +19,6 @@ interface PDOSqlBuilderInterface
 
 	public function update($table);
 
-	public function deleteFrom($table);
+	public function delete($table);
 
 }

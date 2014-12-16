@@ -6,10 +6,14 @@
  * Time: 17:18
  */
 
-namespace PDOSqlBuilder\Builder;
+namespace PPDO\Builder;
 
 
 class DeleteBuilder extends AbstractBuilder
 {
 
-} 
+	public function build()
+	{
+		// TODO: Implement buildQuery() method.
+	}
+}

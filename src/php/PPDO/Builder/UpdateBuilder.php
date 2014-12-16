@@ -6,9 +6,13 @@
  * Time: 17:17
  */
 
-namespace PDOSqlBuilder\Builder;
+namespace PPDO\Builder;
 
 
 class UpdateBuilder extends AbstractBuilder {
 
-} 
+	public function build()
+	{
+		// TODO: Implement buildQuery() method.
+	}
+}

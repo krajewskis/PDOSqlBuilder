@@ -27,7 +27,7 @@ for ($i = 1; $i <= 3; $i++) {
 
 	print PHP_EOL . PHP_EOL;
 
-	$pdob = new \PDOSqlBuilder\PDOSqlBuilder($pdo);
+	$pdob = new \PPDO\PPDO($pdo);
 	$pdob->setDebug(true);
 	$list = $pdob->from('test')->where('id', array(1, 2))->fetchAll(PDO::FETCH_OBJ);
 

@@ -6,11 +6,10 @@
  * Time: 12:41
  */
 
-namespace test\PDOSqlBuilder\Builder;
 
 
-use PDOSqlBuilder\Builder\SelectBuilder;
-use PDOSqlBuilder\Builder\WhereBuilder;
+use PPDO\Builder\SelectBuilder;
+use PPDO\Builder\WhereBuilder;
 
 class SelectBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,32 +26,32 @@ class SelectBuilderTest extends \PHPUnit_Framework_TestCase
 
 	public function testBuildQuery()
 	{
-		$query = $this->selectBuilder->buildQuery();
+		$query = $this->selectBuilder->build();
 		$this->assertEquals('SELECT * FROM test', $query);
 	}
 
 	public function testBuildQueryLimit()
 	{
-		$query = $this->selectBuilder->limit(100)->buildQuery();
+		$query = $this->selectBuilder->limit(100)->build();
 		$this->assertEquals('SELECT * FROM test LIMIT 100', $query);
 	}
 
 	public function testBuildQueryOffset()
 	{
-		$query = $this->selectBuilder->offset(100)->buildQuery();
+		$query = $this->selectBuilder->offset(100)->build();
 		$this->assertEquals('SELECT * FROM test OFFSET 100', $query);
 	}
 
 	public function testBuildQueryLimitOffset()
 	{
-		$query = $this->selectBuilder->limit(100)->offset(100)->buildQuery();
+		$query = $this->selectBuilder->limit(100)->offset(100)->build();
 		$this->assertEquals('SELECT * FROM test LIMIT 100 OFFSET 100', $query);
 	}
 
 	public function testBuildQueryWhere()
 	{
 		$this->selectBuilder->where('id', 1);
-		$this->assertEquals('SELECT * FROM test WHERE (id = ?)', $this->selectBuilder->buildQuery());
+		$this->assertEquals('SELECT * FROM test WHERE (id = ?)', $this->selectBuilder->build());
 		$parameters = $this->selectBuilder->getParameters();
 		$this->assertInternalType('array', $parameters);
 		$this->assertEquals(1, count($parameters));

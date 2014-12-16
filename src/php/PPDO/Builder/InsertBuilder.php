@@ -6,10 +6,14 @@
  * Time: 17:16
  */
 
-namespace PDOSqlBuilder\Builder;
+namespace PPDO\Builder;
 
 
 class InsertBuilder extends AbstractBuilder
 {
 
-} 
+	public function build()
+	{
+		// TODO: Implement buildQuery() method.
+	}
+}

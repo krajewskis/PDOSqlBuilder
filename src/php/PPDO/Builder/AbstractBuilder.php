@@ -6,7 +6,7 @@
  * Time: 17:17
  */
 
-namespace PDOSqlBuilder\Builder;
+namespace PPDO\Builder;
 
 
 abstract class AbstractBuilder
@@ -20,5 +20,5 @@ abstract class AbstractBuilder
 		$this->table = $table;
 	}
 
-	abstract public function buildQuery();
+	abstract public function build();
 }

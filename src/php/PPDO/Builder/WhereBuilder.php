@@ -6,7 +6,7 @@
  * Time: 17:04
  */
 
-namespace PDOSqlBuilder\Builder;
+namespace PPDO\Builder;
 
 
 class WhereBuilder
@@ -66,7 +66,7 @@ class WhereBuilder
 
 	public function hasConditions()
 	{
-		return (bool)count($this->conditions);
+		return !empty($this->conditions);
 	}
 
 	public function getConditions()
