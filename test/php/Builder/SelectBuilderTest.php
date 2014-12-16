@@ -30,6 +30,13 @@ class SelectBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('SELECT * FROM test', $query);
 	}
 
+	public function testColumns()
+	{
+		$query = $this->selectBuilder->columns('test')->build()
+		;
+		$this->assertEquals('SELECT test FROM test', $query);
+	}
+
 	public function testBuildQueryWhere()
 	{
 		$this->selectBuilder->where('id', 1);

@@ -11,6 +11,7 @@ namespace PPDO\Builder;
 
 class SelectBuilder extends AbstractBuilder
 {
+	private $columns;
 	private $where;
 	private $order;
 	private $limit;
@@ -22,6 +23,12 @@ class SelectBuilder extends AbstractBuilder
 	{
 		parent::__construct($table);
 		$this->where = $where;
+	}
+
+	public function columns($columns)
+	{
+		$this->columns = $columns;
+		return $this;
 	}
 
 	public function where($conditions, $parameters = null)
@@ -50,7 +57,7 @@ class SelectBuilder extends AbstractBuilder
 
 	public function build()
 	{
-		$this->query = 'SELECT * FROM ' . $this->table;
+		$this->query = 'SELECT '.(!empty($this->columns) ? $this->columns : '*').' FROM ' . $this->table;
 		if ($this->where->hasConditions()) {
 			$this->query .= ' WHERE ' . $this->where->getConditions();
 		}
@@ -77,6 +84,4 @@ class SelectBuilder extends AbstractBuilder
 	{
 		return $this->where->getParameters();
 	}
-
-
 }

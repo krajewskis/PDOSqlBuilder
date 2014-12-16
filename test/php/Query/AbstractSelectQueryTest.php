@@ -29,6 +29,13 @@ abstract class AbstractSelectQueryTest extends AbstractQueryTest
 		$this->assertTrue(count($list) > 1);
 	}
 
+	public function testColumns()
+	{
+		$list = $this->selectQuery->columns('code, title')->fetchAll(\PDO::FETCH_OBJ);
+		$this->assertTrue(count($list) > 1);
+		$this->assertEquals(2, count(get_object_vars($list[0])));
+	}
+
 	public function testWhereEqualsBoolTrue()
 	{
 		$list = $this->selectQuery->where('status1', true)->fetchAll(\PDO::FETCH_OBJ);

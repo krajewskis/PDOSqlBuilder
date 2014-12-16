@@ -27,6 +27,12 @@ class SelectQuery extends AbstractQuery
 		$this->selectBuilder = new SelectBuilder($table, new WhereBuilder());
 	}
 
+	public function columns($columns)
+	{
+		$this->selectBuilder->columns($columns);
+		return $this;
+	}
+
 	public function where($conditions, $parameters = null)
 	{
 		$this->selectBuilder->where($conditions, $parameters);

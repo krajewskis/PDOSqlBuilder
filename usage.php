@@ -14,4 +14,4 @@ $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 $ppdo = new \PPDO\PPDO($pdo);
 $ppdo->setDebug(true);
-$ppdo->from('test')->order('code')->execute();
+$ppdo->from('test')->columns('code')->order('code')->execute();
