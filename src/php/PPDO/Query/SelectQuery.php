@@ -20,6 +20,7 @@ class SelectQuery extends AbstractQuery
 	private $selectBuilder;
 	private $query;
 	private $parameters;
+	private $executed;
 	private $sth;
 
 	public function __construct(\PDO $pdo, $table)
@@ -91,28 +92,50 @@ class SelectQuery extends AbstractQuery
 			$this->prepare();
 		}
 		$this->parameters = $this->selectBuilder->getParameters();
+		$this->executed = true;
 		return $this->sth->execute($this->parameters);
 	}
 
-	public function setFetchMode($style = null, $argument = null)
+	public function setFetchMode($style, $argument = null)
 	{
-		if (!$this->sth) {
-			$this->sth = $this->execute();
-		}
+		$this->prepare();
 
-		if (!is_null($style) && is_null($argument)) {
+		if (is_null($argument)) {
 			$this->sth->setFetchMode($style);
 
-		} else if (!is_null($style) && !is_null($argument)) {
+		} else if (!is_null($argument)) {
 			$this->sth->setFetchMode($style, $argument);
 		}
 
 		return $this;
 	}
 
+	public function fetch($style = null, $argument = null)
+	{
+		if (!$this->executed) {
+			$this->execute();
+		}
+
+		$result = null;
+
+		if (is_null($style) && is_null($argument)) {
+			$result = $this->sth->fetch();
+
+		} else if (!is_null($style) && is_null($argument)) {
+			$result = $this->sth->fetch($style);
+
+		} else if (!is_null($style) && !is_null($argument)) {
+			$result = $this->sth->fetch($style, $argument);
+		}
+
+		$this->sth = null;
+
+		return $result;
+	}
+
 	public function fetchAll($style = null, $argument = null)
 	{
-		if (!$this->sth) {
+		if (!$this->executed) {
 			$this->execute();
 		}
 
