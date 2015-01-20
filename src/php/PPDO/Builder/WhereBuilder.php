@@ -43,11 +43,12 @@ class WhereBuilder
 					$this->parameters = array_merge($this->parameters, $param);
 				}
 
-			} else if (preg_match('/(\?)+/', $condition, $matches) && count($matches) > 1 && !is_array($param)) {
+			} else if (preg_match_all('/\?+/', $condition, $matches) && count($matches[0]) > 1 && !is_array($param)) {
 				// ->where('a = ? OR b = ?', 1);
 				$this->conditions[] = $condition;
-				$param = array_fill(0, count($matches), $param);
+				$param = array_fill(0, count($matches[0]), $param);
 				$this->parameters = array_merge($this->parameters, $param);
+				echo 1;
 
 			} else {
 				// by PDO

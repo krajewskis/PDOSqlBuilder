@@ -19,6 +19,7 @@ class SelectQuery extends AbstractQuery
 	 */
 	private $selectBuilder;
 	private $query;
+	private $parameters;
 	private $sth;
 
 	public function __construct(\PDO $pdo, $table)
@@ -89,7 +90,10 @@ class SelectQuery extends AbstractQuery
 		if (!$this->sth) {
 			$this->prepare();
 		}
-		return $this->sth->execute($this->selectBuilder->getParameters());
+		$this->parameters = $this->selectBuilder->getParameters();
+		print $this->query;
+		print_r($this->parameters);
+		return $this->sth->execute($this->parameters);
 	}
 
 	public function setFetchMode($style = null, $argument = null)
