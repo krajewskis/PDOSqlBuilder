@@ -58,11 +58,35 @@ class WhereBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(1, current($this->whereBuilder->getParameters()));
 	}
 
+	public function testLowerThanInt()
+	{
+		$this->whereBuilder->addCondition('a < ?', 1);
+		$this->assertEquals('(a < ?)', $this->whereBuilder->getConditions());
+		$this->assertEquals(1, current($this->whereBuilder->getParameters()));
+	}
+
+	public function testBetweenInt()
+	{
+		$this->whereBuilder->addCondition('a > ?', 1);
+		$this->whereBuilder->addCondition('a < ?', 10);
+		$this->assertEquals('(a > ?) AND (a < ?)', $this->whereBuilder->getConditions());
+		$parameters = $this->whereBuilder->getParameters();
+		$this->assertEquals(1, $parameters[0]);
+		$this->assertEquals(10, $parameters[1]);
+	}
+
 	public function testHigherThanTime()
 	{
 		$this->whereBuilder->addCondition('a > ?', 'now()');
 		$this->assertEquals('(a > ?)', $this->whereBuilder->getConditions());
-		$this->assertEquals(1, current($this->whereBuilder->getParameters()));
+		$this->assertEquals('now()', current($this->whereBuilder->getParameters()));
+	}
+
+	public function testLowerThanTime()
+	{
+		$this->whereBuilder->addCondition('a < ?', 'now()');
+		$this->assertEquals('(a < ?)', $this->whereBuilder->getConditions());
+		$this->assertEquals('now()', current($this->whereBuilder->getParameters()));
 	}
 
 	public function testEqualsString()
