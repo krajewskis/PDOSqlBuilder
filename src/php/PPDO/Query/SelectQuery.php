@@ -91,8 +91,6 @@ class SelectQuery extends AbstractQuery
 			$this->prepare();
 		}
 		$this->parameters = $this->selectBuilder->getParameters();
-		print $this->query;
-		print_r($this->parameters);
 		return $this->sth->execute($this->parameters);
 	}
 
