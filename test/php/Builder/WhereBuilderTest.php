@@ -43,19 +43,33 @@ class WhereBuilderTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals(1, current($this->whereBuilder->getParameters()));
 	}
 
-	public function testEqualsString()
-	{
-		$this->whereBuilder->addCondition('a', 'a');
-		$this->assertEquals('(a = ?)', $this->whereBuilder->getConditions());
-		$this->assertEquals('a', current($this->whereBuilder->getParameters()));
-	}
-
 	public function testInInt()
 	{
 		$this->whereBuilder->addCondition('a', array(1, 2));
 		$this->assertEquals('(a IN (?,?))', $this->whereBuilder->getConditions());
 		$this->assertEquals(1, current($this->whereBuilder->getParameters()));
 		$this->assertEquals(2, next($this->whereBuilder->getParameters()));
+	}
+
+	public function testHigherThanInt()
+	{
+		$this->whereBuilder->addCondition('a > ?', 1);
+		$this->assertEquals('(a > ?)', $this->whereBuilder->getConditions());
+		$this->assertEquals(1, current($this->whereBuilder->getParameters()));
+	}
+
+	public function testHigherThanTime()
+	{
+		$this->whereBuilder->addCondition('a > ?', 'now()');
+		$this->assertEquals('(a > ?)', $this->whereBuilder->getConditions());
+		$this->assertEquals(1, current($this->whereBuilder->getParameters()));
+	}
+
+	public function testEqualsString()
+	{
+		$this->whereBuilder->addCondition('a', 'a');
+		$this->assertEquals('(a = ?)', $this->whereBuilder->getConditions());
+		$this->assertEquals('a', current($this->whereBuilder->getParameters()));
 	}
 
 	public function testInString()
