@@ -23,7 +23,7 @@ class WhereBuilder
 
 		} else if (!is_array($condition)) {
 			// ->where('a', ...
-			if (preg_match('/^[a-z0-9\.]*$/', $condition)) {
+			if (preg_match('/^[a-z0-9\.\(\)]*$/', $condition)) {
 				if (!is_array($param)) {
 					if ($param === true) {
 						// ->where('a', true);
