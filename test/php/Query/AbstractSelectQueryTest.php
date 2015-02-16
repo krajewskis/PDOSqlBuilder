@@ -117,4 +117,13 @@ abstract class AbstractSelectQueryTest extends AbstractQueryTest
 		$list = $this->selectQuery->limit(1)->fetchAll(\PDO::FETCH_OBJ);
 		$this->assertEquals(1, count($list));
 	}
+
+	/**
+	 * @expectedException PPDO\Query\QueryException
+	 */
+	public function testQueryException()
+	{
+		$this->selectQuery->where('bad-condition >', 'a')->fetch();
+	}
+
 }

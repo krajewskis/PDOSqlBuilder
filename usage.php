@@ -27,5 +27,5 @@ $model = new ExampleModel();
 //var_dump($model);
 //var_dump($ppdo->from('test')->where('id', 1)->limit(1)->setFetchMode(PDO::FETCH_CLASS, get_class($model))->fetch());
 
-var_dump($ppdo->from('test')->where('id', 1)->limit(1)->setFetchMode(PDO::FETCH_INTO, $model)->fetch());
-var_dump($model);
+//var_dump($ppdo->from('test')->where('id >', '1')->fetch(PDO::FETCH_OBJ));
+var_dump($ppdo->from('test')->where('id > ? OR id > ?', 1)->fetch(PDO::FETCH_OBJ));

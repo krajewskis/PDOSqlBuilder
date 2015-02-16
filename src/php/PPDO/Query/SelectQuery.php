@@ -82,7 +82,18 @@ class SelectQuery extends AbstractQuery
 		if (!$this->query) {
 			$this->query = $this->selectBuilder->build();
 		}
-		$this->sth = $this->pdo->prepare($this->query);
+
+		try {
+			$this->sth = $this->pdo->prepare($this->query);
+
+		} catch (\PDOException $e) {
+			throw new QueryException($this->query, null, $e);
+		}
+
+		if (!$this->sth) {
+			throw new QueryException($this->query);
+		}
+
 		return $this;
 	}
 
@@ -93,7 +104,19 @@ class SelectQuery extends AbstractQuery
 		}
 		$this->parameters = $this->selectBuilder->getParameters();
 		$this->executed = true;
-		return $this->sth->execute($this->parameters);
+
+		try {
+			$execute = $this->sth->execute($this->parameters);
+
+		} catch (\PDOException $e) {
+			throw new QueryException($this->query . PHP_EOL . print_r($this->parameters, true), null, $e);
+		}
+
+		if (!$execute) {
+			throw new QueryException($this->query . PHP_EOL . print_r($this->parameters, true));
+		}
+
+		return $execute;
 	}
 
 	public function setFetchMode($style, $argument = null)
